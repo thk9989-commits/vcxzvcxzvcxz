@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Act Two - System Breach</title>
+
+<style>
+body{
+    margin:0;
+    background:black;
+    color:#00ff41;
+    font-family:monospace;
+    padding:40px;
+    overflow:hidden;
+}
+
+#terminal{
+    border:1px solid #00ff41;
+    padding:20px;
+    height:80vh;
+    overflow:auto;
+    white-space:pre;
+}
+
+.warning{
+    color:red;
+}
+</style>
+</head>
+<body>
+
+<div id="terminal"></div>
+
+<script>
+
+const terminal = document.getElementById("terminal");
+
+const logs = [
+"ACCESS GRANTED...",
+"SYSTEM CONNECTED...",
+"LOADING CORE DATA...",
+"BLACKLISTING USERS...",
+"FIREWALL DISABLED...",
+"DECRYPTING FILES...",
+"INITIATE COUNTERMEASURE..."
+];
+
+let i = 0;
+
+function typeLogs(){
+    if(i < logs.length){
+        terminal.innerHTML += logs[i] + "\n";
+        i++;
+        setTimeout(typeLogs,800);
+    } else {
+        terminal.innerHTML += "\n>>> SYSTEM BREACH COMPLETE";
+    }
+}
+
+typeLogs();
+
+</script>
+
+</body>
+</html>
