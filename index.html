@@ -2,170 +2,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Phase 1 - System Boot</title>
-
-<style>
-
-body{
-    margin:0;
-    background:black;
-    color:#00ff41;
-    font-family:monospace;
-    overflow:hidden;
-}
-
-/* Loading Screen */
-
-#loading{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-}
-
-/* Main Scene */
-
-#scene{
-    display:none;
-    padding:40px;
-}
-
-/* Image */
-
-#image-container{
-    width:400px;
-    height:400px;
-    border:2px solid #222;
-    background:#050505;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-#image-container img{
-    max-width:100%;
-    max-height:100%;
-}
-
-/* Terminal */
-
-#terminal{
-    margin-top:30px;
-    border:1px solid #00ff41;
-    padding:20px;
-    height:150px;
-    overflow:hidden;
-    white-space:pre-wrap;
-}
-
-/* Glitch */
-
-.glitch{
-    animation:shake 0.1s infinite;
-    color:red;
-}
-
-@keyframes shake{
-    0%{transform:translate(2px,0);}
-    50%{transform:translate(-2px,0);}
-    100%{transform:translate(2px,0);}
-}
-
-/* Hidden Man */
-
-#man{
-    opacity:0;
-    transition:2s;
-}
-
-.show-man{
-    opacity:1 !important;
-}
-
-</style>
+<title>TEST BOOT</title>
 </head>
-<body>
+<body style="background:black;color:lime;font-family:monospace;">
 
-<!-- LOADING -->
-<div id="loading">SYSTEM BOOTING...</div>
-
-<!-- SCENE -->
-<div id="scene">
-
-<div id="image-container">
-<img id="man" src="hacker.png"
-onerror="this.parentElement.innerHTML='IMAGE FAILED TO LOAD'">
-</div>
-
-<div id="terminal"></div>
-
-</div>
+<h1 id="status">BOOTING...</h1>
 
 <script>
-window.onerror = function(msg, url, line){
-    alert("ERROR:\n"+msg+"\nLine:"+line);
-};
-const loading = document.getElementById("loading");
-const scene = document.getElementById("scene");
-const terminal = document.getElementById("terminal");
-const man = document.getElementById("man");
 
-/* ---------------- BOOT SEQUENCE ---------------- */
+const status = document.getElementById("status");
 
 setTimeout(()=>{
-
-loading.innerText="INITIALIZING CORE...";
-scene.style.display="block";
-
+    status.innerText = "STEP 1 WORKS";
 },2000);
 
-
-/* ---------------- SYSTEM ERRORS ---------------- */
-
 setTimeout(()=>{
-
-terminal.innerHTML += "LOADING FILES...\n";
-
+    status.innerText = "STEP 2 WORKS";
 },4000);
 
-
 setTimeout(()=>{
-
-terminal.innerHTML += "ERROR: MEMORY LEAK DETECTED\n";
-terminal.classList.add("glitch");
-
+    status.innerText = "ALL TIMERS WORK";
 },6000);
-
-
-setTimeout(()=>{
-
-terminal.innerHTML += "SYSTEM INSTABILITY INCREASING...\n";
-terminal.classList.remove("glitch");
-
-},8000);
-
-
-/* ---------------- MAN APPEARS ---------------- */
-
-setTimeout(()=>{
-
-man.classList.add("show-man");
-terminal.innerHTML += "\nENTITY DETECTED...\n";
-
-},10000);
-
-
-/* ---------------- END OF PHASE 1 ---------------- */
-
-setTimeout(()=>{
-
-terminal.innerHTML += "\nPHASE 1 COMPLETE\n";
-setTimeout(()=>{
-    window.location.href="act2.html";
-},3000);
-
-},13000);
 
 </script>
 
