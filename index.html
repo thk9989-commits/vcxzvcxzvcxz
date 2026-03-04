@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CORE BREACH</title>
+<title>ADVICE CENTRE BREACH</title>
 
 <style>
 body{
@@ -13,307 +13,164 @@ body{
     overflow:hidden;
 }
 
-/* ================= SCENE 1 ================= */
+/* ===== SCENE ===== */
 
-#scene1{
-    height:100vh;
+#scene{
+    padding:40px;
+}
+
+/* Scenario Box */
+#scenario{
+    border:1px solid #00ff41;
+    padding:20px;
+    margin-bottom:20px;
+    max-width:800px;
+}
+
+/* Questions */
+.question{
+    margin-top:15px;
+    padding:10px;
+    border-left:3px solid #00ff41;
+}
+
+/* Image Container */
+#image-container{
+    margin-top:20px;
+    border:2px solid #222;
+    width:500px;
+    height:500px;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
-}
-
-.frame{
-    position:relative;
-    overflow:hidden;
-    border:2px solid #111;
     background:#050505;
 }
 
-#door{
-    max-width:85vw;
-    max-height:70vh;
-    display:block;
+#boss{
+    max-width:100%;
+    max-height:100%;
 }
 
-.mask{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#050505;
-}
-
-#dialogue{
-    margin-bottom:20px;
-    font-weight:bold;
-}
-
-/* ================= FAKE OS ================= */
-
-#fake-os{
+/* Hidden glitch layer */
+#glitch{
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
-    display:none;
-    pointer-events:none;
-}
-
-.window{
-    position:absolute;
-    background:#111;
-    border:1px solid #00ff41;
-    padding:10px;
-    box-shadow:0 0 20px #00ff41;
-    font-size:14px;
-}
-
-.calc{ top:20%; left:20%; }
-.folder{ top:45%; left:50%; }
-
-/* glitch effect */
-.glitch{
-    animation:glitch 0.1s infinite;
-}
-
-@keyframes glitch{
-    0%{transform:translate(2px,0);}
-    50%{transform:translate(-2px,0);}
-    100%{transform:translate(2px,0);}
-}
-
-/* ================= SCENE 2 ================= */
-
-#scene2{
-    display:none;
-    padding:20px;
-}
-
-input{
     background:black;
-    border:1px solid #00ff41;
     color:#00ff41;
-    font-family:monospace;
+    display:none;
+    white-space:pre;
+    font-size:10px;
+    overflow:hidden;
 }
 
-.flash{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:red;
-    opacity:0;
-    pointer-events:none;
-}
 </style>
 </head>
 <body>
 
-<div class="flash" id="flash"></div>
+<div id="scene">
 
-<!-- ================= SCENE 1 ================= -->
+<div id="scenario">
+<b>SCENARIO:</b><br><br>
 
-<div id="scene1">
-    <div id="dialogue">INITIALIZING...</div>
+When customers arrive at a drop-in advice centre, they collect a ticket with a three-digit number:
+001, 002, 003, etc.
 
-    <div class="frame">
-        <img id="door" src="door.png">
-        <div class="mask" id="mask"></div>
-    </div>
+Customers are seen in order of arrival. When an adviser is free, the next number is displayed.
+
+Appointments last between 5 and 10 minutes.
+
+All advisers start at 09:00 and take lunch from 12:00 – 13:00.
+
+Rachel visits on Monday.
+Only one adviser is working.
+Number 028 is displayed.
+
 </div>
 
-<!-- Fake OS Popups -->
-<div id="fake-os">
-    <div class="window calc">
-        CALCULATOR.exe<br>
-        <span id="calc-output"></span>
-    </div>
-    <div class="window folder">
-        Opening: C:\hidden\hacker.img
-    </div>
+<!-- QUESTIONS -->
+
+<div class="question">
+1) Rachel sees 028. What is the earliest possible arrival time?
 </div>
 
-<!-- ================= SCENE 2 ================= -->
-
-<div id="scene2">
-    <div>
-        [FATAL_ERROR] - CORE_MELTDOWN_PROCEDURE<br>
-        STATUS: COOLING_OFFLINE // BLACKLISTING_ALL_USERS
-    </div>
-
-    <div id="system-log"></div>
-
-    <div id="input-zone" style="display:none;">
-        <div>> STABILIZE_CMD:</div>
-        <input type="text" id="user-input">
-    </div>
+<div class="question">
+2) If Sam sees three advisers, what is the latest possible start time?
 </div>
+
+<div class="question">
+3) Tommy (063) displayed after 048 — smallest waiting time?
+</div>
+
+<div class="question">
+4) Tommy (063) — largest waiting time?
+</div>
+
+<div class="question">
+5) Mean wait time for Tommy?
+</div>
+
+<!-- IMAGE -->
+
+<div id="image-container">
+<img id="boss" src="hacker.png" onerror="this.style.display='none'">
+</div>
+
+</div>
+
+<!-- GLITCH TRANSITION -->
+
+<div id="glitch"></div>
 
 <script>
 
-/* ================= SCENE 1 ================= */
+/* ===== FAKE SECURITY TIMER ===== */
 
-const mask = document.getElementById("mask");
-const dialogue = document.getElementById("dialogue");
-const scene1 = document.getElementById("scene1");
-const scene2 = document.getElementById("scene2");
-const flash = document.getElementById("flash");
+setTimeout(startGlitch,8000);
 
-let progress = 100;
+function startGlitch(){
 
-function reveal(){
-    if(progress > 0){
-        progress -= 0.8;
-        if(progress < 0) progress = 0;
-        mask.style.height = progress + "%";
-        requestAnimationFrame(reveal);
-    }else{
-        dialogue.innerText = "ACCESS GRANTED";
-        setTimeout(()=> beginGlitch(),500);
+    const glitch = document.getElementById("glitch");
+    glitch.style.display="block";
+
+    let text="SYSTEM BREACH DETECTED\n\n";
+
+    const chars="01#@$%&{}[]<>/";
+
+    for(let i=0;i<3000;i++){
+        text+=chars[Math.floor(Math.random()*chars.length)];
+        if(i%80===0) text+="\n";
     }
-}
 
-window.onload = reveal;
-
-/* ================= GLITCH TRANSITION ================= */
-
-function beginGlitch(){
-    document.body.classList.add("glitch");
-
-    flash.style.opacity="0.8";
-    setTimeout(()=> flash.style.opacity="0",200);
-
-    setTimeout(()=> showFakeOS(),300);
-}
-
-/* ================= FAKE OS BREACH ================= */
-
-function showFakeOS(){
-    const fakeOS = document.getElementById("fake-os");
-    const calc = document.getElementById("calc-output");
-
-    fakeOS.style.display="block";
-
-    let count = 0;
-    const interval = setInterval(()=>{
-        calc.innerText = Math.floor(Math.random()*99999) + " ERROR";
-        count++;
-        if(count > 15){
-            clearInterval(interval);
-            showCodeWall();
-        }
-    },80);
-}
-
-/* ================= CODE WALL ================= */
-
-function showCodeWall(){
-
-    document.getElementById("fake-os").innerHTML = "";
-
-    const wall = document.createElement("div");
-    wall.style.position="fixed";
-    wall.style.top=0;
-    wall.style.left=0;
-    wall.style.width="100%";
-    wall.style.height="100%";
-    wall.style.background="black";
-    wall.style.color="#00ff41";
-    wall.style.fontSize="10px";
-    wall.style.whiteSpace="pre";
-    wall.style.overflow="hidden";
-    wall.style.zIndex="999";
-
-    wall.innerText = generateCode();
-
-    document.body.appendChild(wall);
+    glitch.innerText=text;
 
     setTimeout(()=>{
-        wall.remove();
-        document.body.classList.remove("glitch");
-        scene1.style.display="none";
-        scene2.style.display="block";
-        executeMeltdown();
-    },1200);
+        glitch.style.display="none";
+        triggerHiddenMode();
+    },2000);
 }
 
-function generateCode(){
-    const chars="01#@$%&{}[]<>/\\";
-    let text="";
-    for(let i=0;i<2500;i++){
-        text+=chars[Math.floor(Math.random()*chars.length)];
-        if(i % 80 === 0) text+="\n";
-    }
-    return text;
+/* ===== FALSE SENSE OF SECURITY ===== */
+
+function triggerHiddenMode(){
+
+    document.body.style.transition="background 1s";
+    document.body.style.background="#001100";
+
+    const warning=document.createElement("div");
+    warning.innerText="ACCESS GRANTED — CORE COMPROMISED";
+    warning.style.position="fixed";
+    warning.style.top="50%";
+    warning.style.left="50%";
+    warning.style.transform="translate(-50%,-50%)";
+    warning.style.fontSize="28px";
+    warning.style.color="red";
+    warning.style.textShadow="0 0 20px red";
+
+    document.body.appendChild(warning);
 }
-
-/* ================= SCENE 2 ================= */
-
-const log = document.getElementById("system-log");
-const inputZone = document.getElementById("input-zone");
-const userInput = document.getElementById("user-input");
-
-const logs = [
-    "[SYSTEM_ERROR]: UNKNOWN CODE STRING DETECTED",
-    "STATUS: CRITICAL // FIREWALL: [BLOCKED]",
-    "CORE RELOCKED // COOLING FAILURE",
-    "--------------------------------",
-    "SCENARIO DATA:",
-    "Customers arrive at 09:00.",
-    "Tickets start at 001.",
-    "Appointments last 5-10 minutes.",
-    "Lunch break 12:00 - 13:00.",
-    "--------------------------------",
-    "FINAL ATTEMPT TO STABILIZE CORE"
-];
-
-const puzzles = [
-    {q:"Rachel (028) earliest arrival?", a:"11:15"},
-    {q:"Sam (052) latest start?", a:"13:00"},
-    {q:"Tommy (063) minutes to wait?", a:"75"},
-    {q:"Tommy (063) largest minutes?", a:"160"},
-    {q:"Mean wait time for Tommy?", a:"117.5"}
-];
-
-let puzzleIndex = 0;
-
-async function executeMeltdown(){
-    for(let msg of logs){
-        let div = document.createElement("div");
-        div.innerText = ">>> " + msg;
-        log.appendChild(div);
-        await new Promise(r => setTimeout(r,700));
-    }
-    loadPuzzle();
-}
-
-function loadPuzzle(){
-    if(puzzleIndex < puzzles.length){
-        inputZone.style.display="block";
-        userInput.placeholder = puzzles[puzzleIndex].q;
-        userInput.focus();
-    }else{
-        document.body.innerHTML =
-        "<h1 style='color:#00ff41;text-align:center;padding-top:20%'>CORE STABILIZED</h1>";
-    }
-}
-
-userInput.addEventListener("keydown",(e)=>{
-    if(e.key === "Enter"){
-        if(userInput.value.trim() === puzzles[puzzleIndex].a){
-            puzzleIndex++;
-            userInput.value="";
-            loadPuzzle();
-        }else{
-            document.body.innerHTML =
-            "<h1 style='color:red;text-align:center;padding-top:20%'>SYSTEM FAILURE</h1>";
-        }
-    }
-});
 
 </script>
 
