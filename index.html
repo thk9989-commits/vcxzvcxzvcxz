@@ -2,40 +2,45 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Act One - Scenario</title>
+<title>Phase 1 - System Boot</title>
 
 <style>
+
 body{
     margin:0;
     background:black;
     color:#00ff41;
     font-family:monospace;
-    padding:40px;
+    overflow:hidden;
 }
 
-.box{
-    border:1px solid #00ff41;
-    padding:25px;
-    max-width:900px;
-    line-height:1.6;
-    margin-bottom:30px;
-}
+/* Loading Screen */
 
-.question{
-    margin-top:20px;
-    padding:10px;
-    border-left:4px solid #00ff41;
-}
-
-#image-container{
-    margin-top:30px;
-    width:400px;
-    height:400px;
-    border:2px solid #222;
+#loading{
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:30px;
+}
+
+/* Main Scene */
+
+#scene{
+    display:none;
+    padding:40px;
+}
+
+/* Image */
+
+#image-container{
+    width:400px;
+    height:400px;
+    border:2px solid #222;
     background:#050505;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 #image-container img{
@@ -43,79 +48,120 @@ body{
     max-height:100%;
 }
 
-button{
+/* Terminal */
+
+#terminal{
     margin-top:30px;
-    background:#00ff41;
-    border:none;
-    padding:15px 30px;
-    cursor:pointer;
-    font-family:monospace;
+    border:1px solid #00ff41;
+    padding:20px;
+    height:150px;
+    overflow:hidden;
+    white-space:pre-wrap;
 }
+
+/* Glitch */
+
+.glitch{
+    animation:shake 0.1s infinite;
+    color:red;
+}
+
+@keyframes shake{
+    0%{transform:translate(2px,0);}
+    50%{transform:translate(-2px,0);}
+    100%{transform:translate(2px,0);}
+}
+
+/* Hidden Man */
+
+#man{
+    opacity:0;
+    transition:2s;
+}
+
+.show-man{
+    opacity:1 !important;
+}
+
 </style>
 </head>
 <body>
 
-<div class="box">
+<!-- LOADING -->
+<div id="loading">SYSTEM BOOTING...</div>
 
-<h2>SCENARIO</h2>
-
-When customers arrive at a drop-in advice centre:
-
-• They collect a three-digit ticket number (001, 002, 003...).  
-• Customers are seen in order of arrival.  
-• The next number is displayed when an adviser is free.  
-• Numbers remain visible until the next customer.  
-• Appointments last between 5 and 10 minutes.  
-• No time is lost between appointments.  
-• Advisers work 09:00 – 12:00 and 13:00 onward.  
-• Lunch break is 12:00 – 13:00.  
-• Always enough customers.
-
-Rachel visits Monday.  
-Only ONE adviser is working.  
-Number **028** is displayed.
-
-</div>
-
-<div class="box">
-
-<div class="question">
-1) Rachel sees 028. What is the earliest arrival time?
-</div>
-
-<div class="question">
-2) Sam sees three advisers. Latest possible start time?
-</div>
-
-<div class="question">
-3) Tommy (063) after 048 — smallest waiting time?
-</div>
-
-<div class="question">
-4) Tommy (063) — largest waiting time?
-</div>
-
-<div class="question">
-5) Mean waiting time for Tommy?
-</div>
-
-</div>
-
-<!-- IMAGE -->
+<!-- SCENE -->
+<div id="scene">
 
 <div id="image-container">
-<img src="hacker.png" alt="Hacker Image"
+<img id="man" src="hacker.png"
 onerror="this.parentElement.innerHTML='IMAGE FAILED TO LOAD'">
 </div>
 
-<!-- BUTTON -->
+<div id="terminal"></div>
 
-<button onclick="goNext()">ENTER SYSTEM</button>
+</div>
 
 <script>
-function goNext(){
-    window.location.href = "act2.html";
-}
+
+const loading = document.getElementById("loading");
+const scene = document.getElementById("scene");
+const terminal = document.getElementById("terminal");
+const man = document.getElementById("man");
+
+/* ---------------- BOOT SEQUENCE ---------------- */
+
+setTimeout(()=>{
+
+loading.innerText="INITIALIZING CORE...";
+scene.style.display="block";
+
+},2000);
+
+
+/* ---------------- SYSTEM ERRORS ---------------- */
+
+setTimeout(()=>{
+
+terminal.innerHTML += "LOADING FILES...\n";
+
+},4000);
+
+
+setTimeout(()=>{
+
+terminal.innerHTML += "ERROR: MEMORY LEAK DETECTED\n";
+terminal.classList.add("glitch");
+
+},6000);
+
+
+setTimeout(()=>{
+
+terminal.innerHTML += "SYSTEM INSTABILITY INCREASING...\n";
+terminal.classList.remove("glitch");
+
+},8000);
+
+
+/* ---------------- MAN APPEARS ---------------- */
+
+setTimeout(()=>{
+
+man.classList.add("show-man");
+terminal.innerHTML += "\nENTITY DETECTED...\n";
+
+},10000);
+
+
+/* ---------------- END OF PHASE 1 ---------------- */
+
+setTimeout(()=>{
+
+terminal.innerHTML += "\nPHASE 1 COMPLETE\n";
+
+},13000);
+
 </script>
 
 </body>
