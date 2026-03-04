@@ -103,7 +103,9 @@ onerror="this.parentElement.innerHTML='IMAGE FAILED TO LOAD'">
 </div>
 
 <script>
-
+window.onerror = function(msg, url, line){
+    alert("ERROR:\n"+msg+"\nLine:"+line);
+};
 const loading = document.getElementById("loading");
 const scene = document.getElementById("scene");
 const terminal = document.getElementById("terminal");
