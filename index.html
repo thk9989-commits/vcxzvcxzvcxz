@@ -1,43 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #000; color: #00ff41; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        #debug-log { position: absolute; top: 10px; left: 10px; font-size: 12px; color: yellow; }
+        canvas { border: 1px solid #222; max-width: 90vw; }
+    </style>
+</head>
+<body>
+    <div id="debug-log">System Status: Checking Files...</div>
+    <div id="status-text">INITIALIZING...</div>
+    <canvas id="doorCanvas"></canvas>
+
 <script>
+    const log = document.getElementById('debug-log');
+    const status = document.getElementById('status-text');
     const canvas = document.getElementById('doorCanvas');
     const ctx = canvas.getContext('2d');
-    const status = document.getElementById('status-text');
     const img = new Image();
 
-    // 1. UPDATED TO WEBP
-    img.src = 'door.webp'; 
+    // STEP 1: VERIFY FILENAME
+    // Change 'door.webp' below to the EXACT name you see in your GitHub file list
+    const fileName = 'door.webp'; 
 
-    // 2. ERROR CATCHER (If it still waits, this will tell you why)
-    img.onerror = function() {
-        status.innerText = "SYSTEM ERROR: FILE 'door.webp' NOT FOUND.";
-        status.style.color = "#ff0000";
-    };
+    log.innerText = "Attempting to load: " + fileName;
 
     img.onload = function() {
+        log.innerText = "Success: " + fileName + " loaded.";
         canvas.width = img.width;
         canvas.height = img.height;
         let currentY = 0;
         
         function render() {
             if (currentY < canvas.height) {
-                let progress = currentY / canvas.height;
-                let speed = 0.3 + (progress * 5); 
-
+                let speed = 0.5 + ((currentY / canvas.height) * 4); 
                 ctx.drawImage(img, 0, currentY, canvas.width, speed, 0, currentY, canvas.width, speed);
                 ctx.fillStyle = '#00ff41';
                 ctx.fillRect(0, currentY, canvas.width, 2);
-
-                if (progress > 0.4 && progress < 0.7) status.innerText = "Reconstructing Visuals...";
-                if (progress > 0.85) status.innerText = "CRITICAL: Finalizing Handshake...";
-
                 currentY += speed;
                 requestAnimationFrame(render);
             } else {
-                status.innerText = "ACCESS GRANTED. WELCOME.";
-                status.style.color = "#fff";
-                canvas.style.filter = "brightness(1.5) contrast(1.2)";
+                status.innerText = "ACCESS GRANTED";
             }
         }
         render();
     };
+
+    img.onerror = function() {
+        log.style.color = "red";
+        log.innerText = "CRITICAL ERROR: Could not find '" + fileName + "'. Check capitalization!";
+        status.innerText = "STREAM FAILED";
+    };
+
+    img.src = fileName;
 </script>
+</body>
+</html>
