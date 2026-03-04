@@ -2,19 +2,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Advice Centre Simulation</title>
+<title>Act One - Scenario</title>
 
 <style>
-
 body{
     margin:0;
-    background:#000;
+    background:black;
     color:#00ff41;
     font-family:monospace;
     padding:40px;
 }
-
-/* Scenario Box */
 
 .box{
     border:1px solid #00ff41;
@@ -23,15 +20,11 @@ body{
     line-height:1.6;
 }
 
-/* Questions */
-
 .question{
     margin-top:25px;
     padding:15px;
     border-left:4px solid #00ff41;
 }
-
-/* Image */
 
 #image-container{
     margin-top:40px;
@@ -44,27 +37,19 @@ body{
     background:#050505;
 }
 
-#boss{
+#image-container img{
     max-width:100%;
     max-height:100%;
 }
 
-/* Hidden glitch — appears later */
-
-#glitch{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:black;
-    color:red;
-    font-size:14px;
-    display:none;
-    padding:40px;
-    white-space:pre;
+button{
+    margin-top:40px;
+    background:#00ff41;
+    border:none;
+    padding:15px 30px;
+    cursor:pointer;
+    font-family:monospace;
 }
-
 </style>
 </head>
 <body>
@@ -75,122 +60,64 @@ body{
 
 When customers arrive at a drop-in advice centre:
 
-• They collect a three-digit ticket number (001, 002, 003, etc).  
-• Customers are seen in order of arrival.  
-• When an adviser is free, the next number is displayed.  
-• The number stays on the display until the next adviser is free.  
-• Each appointment lasts between 5 and 10 minutes.  
+• They collect a three-digit number (001, 002, 003...).  
+• Customers are seen in order.  
+• The next number is displayed when an adviser is free.  
+• Numbers remain visible until the next customer.  
+• Appointments last between 5 and 10 minutes.  
 • No time is lost between appointments.  
-• There are always enough customers.  
-• All advisers start at 09:00.  
-• Lunch break is 12:00 – 13:00.  
+• Advisers work 09:00 – 12:00 and 13:00 onward.  
+• Lunch break: 12:00 – 13:00.  
+• Always enough customers.
 
-Rachel visits on Monday.  
+Rachel visits Monday.  
 Only ONE adviser is working.  
 Number **028** is displayed.
 
 </div>
 
 
-<!-- QUESTIONS -->
-
 <div class="box">
 
 <div class="question">
-1) Rachel sees number 028.  
-What is the earliest possible arrival time?
+1) Rachel sees 028. What is the earliest arrival time?
 </div>
 
 <div class="question">
-2) If Sam sees three advisers, what is the latest possible appointment start time?
+2) Sam sees three advisers. Latest possible start time?
 </div>
 
 <div class="question">
-3) Tommy (063) is shown after 048.  
-What is the smallest possible waiting time?
+3) Tommy (063) after 048 — smallest waiting time?
 </div>
 
 <div class="question">
-4) Tommy (063) — what is the largest possible waiting time?
+4) Tommy (063) — largest waiting time?
 </div>
 
 <div class="question">
-5) What is the mean (average) waiting time for Tommy?
+5) Mean waiting time for Tommy?
 </div>
 
 </div>
 
 
-<!-- IMAGE -->
+<!-- IMAGE (THIS IS THE FIX) -->
 
 <div id="image-container">
-<img id="boss" src="hacker.png" alt="Hacker Image">
+<img src="hacker.png" 
+onerror="this.parentElement.innerHTML='IMAGE FAILED TO LOAD'">
 </div>
 
 
-<!-- GLITCH (Appears Later) -->
+<!-- BUTTON TO ACT 2 -->
 
-<div id="glitch"></div>
-
+<button onclick="goNext()">ENTER SYSTEM</button>
 
 <script>
 
-/* ================= IMAGE FIX ================= */
-
-// Force reload so browser doesn't cache broken load
-const img = document.getElementById("boss");
-
-img.onload = function(){
-    console.log("Image loaded successfully");
-};
-
-img.onerror = function(){
-    // If image fails, show fallback text instead
-    const container = document.getElementById("image-container");
-    container.innerHTML = "<span style='color:red'>IMAGE FAILED TO LOAD</span>";
-};
-
-// Force refresh attempt
-img.src = "hacker.png?v=" + new Date().getTime();
-
-
-/* ================= SLOW FALSE SECURITY ================= */
-
-setTimeout(()=>{
-    startGlitch();
-},15000); // 15 seconds before breach
-
-function startGlitch(){
-
-    const glitch = document.getElementById("glitch");
-    glitch.style.display="block";
-
-    let text="SYSTEM BREACH DETECTED\n\n";
-
-    const chars="01#@$%&{}[]<>/";
-
-    for(let i=0;i<2500;i++){
-        text+=chars[Math.floor(Math.random()*chars.length)];
-        if(i%100===0) text+="\n";
-    }
-
-    glitch.innerText=text;
-
-    setTimeout(()=>{
-        glitch.style.display="none";
-
-        const warning=document.createElement("div");
-        warning.innerText="ACCESS GRANTED — CORE COMPROMISED";
-        warning.style.position="fixed";
-        warning.style.top="50%";
-        warning.style.left="50%";
-        warning.style.transform="translate(-50%,-50%)";
-        warning.style.fontSize="30px";
-        warning.style.color="red";
-
-        document.body.appendChild(warning);
-
-    },2500);
+function goNext(){
+    window.location.href = "act2.html";
 }
 
 </script>
