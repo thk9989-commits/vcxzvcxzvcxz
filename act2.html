@@ -14,50 +14,99 @@ body{
     overflow:hidden;
 }
 
+/* Terminal Box */
 #terminal{
     border:1px solid #00ff41;
     padding:20px;
     height:80vh;
     overflow:auto;
-    white-space:pre;
+    white-space:pre-wrap;
 }
 
-.warning{
+/* Input */
+input{
+    background:black;
+    border:1px solid #00ff41;
+    color:#00ff41;
+    font-family:monospace;
+    padding:8px;
+    width:300px;
+}
+
+/* Wrong answer */
+.wrong{
     color:red;
 }
 </style>
 </head>
 <body>
 
+<h2>SYSTEM BREACH DETECTED</h2>
+
 <div id="terminal"></div>
+
+<div id="input-area" style="display:none;">
+    <div>> STABILIZE CORE:</div>
+    <input type="text" id="answer-input">
+</div>
 
 <script>
 
 const terminal = document.getElementById("terminal");
+const inputArea = document.getElementById("input-area");
+const input = document.getElementById("answer-input");
+
+/* Logs that type slowly */
 
 const logs = [
 "ACCESS GRANTED...",
-"SYSTEM CONNECTED...",
 "LOADING CORE DATA...",
+"RETRIEVING SCENARIO...",
 "BLACKLISTING USERS...",
 "FIREWALL DISABLED...",
 "DECRYPTING FILES...",
-"INITIATE COUNTERMEASURE..."
+"INITIALIZING COUNTERMEASURES..."
 ];
 
-let i = 0;
+let index = 0;
 
 function typeLogs(){
-    if(i < logs.length){
-        terminal.innerHTML += logs[i] + "\n";
-        i++;
+    if(index < logs.length){
+        terminal.innerHTML += logs[index] + "\n";
+        index++;
         setTimeout(typeLogs,800);
-    } else {
-        terminal.innerHTML += "\n>>> SYSTEM BREACH COMPLETE";
+    }else{
+        showInput();
     }
 }
 
-typeLogs();
+function showInput(){
+    inputArea.style.display="block";
+    input.focus();
+}
+
+/* Example answer check */
+
+input.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+
+        if(input.value.trim().toLowerCase() === "stabilize"){
+            terminal.innerHTML += "\nCORE STABILIZED.\n";
+            inputArea.style.display="none";
+        }else{
+            terminal.innerHTML += "\nWRONG COMMAND.\n";
+            input.classList.add("wrong");
+
+            setTimeout(()=>{
+                input.classList.remove("wrong");
+            },500);
+        }
+
+        input.value="";
+    }
+});
+
+window.onload = typeLogs;
 
 </script>
 
