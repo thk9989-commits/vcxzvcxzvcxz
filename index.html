@@ -1,128 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>GATEWAY_CRITICAL_OVERRIDE</title>
-    <style>
-        body { 
-            background: #000; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            overflow: hidden;
-            font-family: 'Courier New', monospace;
-        }
-        #terminal-header {
-            color: #ffffff; 
-            font-size: 14px;
-            margin-bottom: 10px;
-            width: 80%;
-            text-align: left;
-            border-left: 3px solid #00ff00;
-            padding-left: 10px;
-        }
-        #dialogue-box {
-            color: #00ff41; 
-            font-size: 22px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: bold;
-            height: 30px;
-        }
-        .frame-container {
-            position: relative;
-            border: 2px solid #333;
-            background: #050505;
-            box-shadow: 0 0 50px rgba(255,255,255,0.05);
-        }
-        #door-img {
-            display: block;
-            max-width: 85vw;
-            max-height: 70vh;
-            /* Backup Method: CSS Clipping */
-            clip-path: inset(0 0 100% 0); 
-            transition: filter 0.5s;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Gateway</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    color: #00ff41;
+}
+
+/* Terminal header */
+#header {
+    width: 80%;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border-left: 3px solid #00ff41;
+    padding-left: 10px;
+}
+
+/* Dialogue */
+#dialogue {
+    height: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Frame */
+.frame {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #222;
+    background: #050505;
+}
+
+/* Image */
+#door {
+    display: block;
+    max-width: 85vw;
+    max-height: 70vh;
+}
+
+/* Mask overlay */
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050505;
+}
+</style>
 </head>
 <body>
 
-    <div id="terminal-header">
-        NODE: 127.0.0.1 <br>
-        STATUS: BYPASSING_LOCAL_FILTERS...
-    </div>
-    
-    <div id="dialogue-box">INITIALIZING...</div>
+<div id="header">
+NODE: 127.0.0.1<br>
+STATUS: INITIALIZING...
+</div>
 
-    <div class="frame-container">
-        <img id="door-img" src="">
-    </div>
+<div id="dialogue">BOOTING...</div>
+
+<div class="frame">
+    <img id="door" src="door.png">
+    <div class="mask" id="mask"></div>
+</div>
 
 <script>
-    const img = document.getElementById('door-img');
-    const dialogue = document.getElementById('dialogue-box');
-    
-    // REDUNDANCY 1: Cache Busting to kill the "Green Ghost"
-    const timestamp = new Date().getTime();
-    const targetFile = 'door.webp';
-    img.src = targetFile + "?v=" + timestamp;
+const mask = document.getElementById("mask");
+const dialogue = document.getElementById("dialogue");
 
-    // REDUNDANCY 2: Deep Dialogue Array
-    const bootSequence = [
-        "Tracing Packet Route...",
-        "Proxy Handshake: SUCCESS",
-        "Injecting Payload...",
-        "Firewall Deactivated.",
-        "Stripping SSL Layer...",
-        "Bypassing CSS Cache...",
-        "Syncing Color Buffers...",
-        "Reconstructing Visuals...",
-        "Integrity Check: 100%",
-        "Gateway Decrypted."
-    ];
+const messages = [
+    "Tracing Route...",
+    "Handshake Success...",
+    "Decrypting...",
+    "Firewall Disabled...",
+    "Reconstructing Image...",
+    "Integrity Check: OK",
+    "Finalizing..."
+];
 
-    img.onload = function() {
-        console.log("Image Loaded Successfully. Starting Reveal.");
-        
-        let progress = 100; // Starts at 100% hidden
-        let currentMsg = 0;
+let progress = 100;
+let msgIndex = 0;
 
-        // Slow and steady interval
-        const masterInterval = setInterval(() => {
-            if (progress > 0) {
-                // Inch by inch
-                progress -= 0.15; 
-                img.style.clipPath = `inset(0 0 ${progress}% 0)`;
+function reveal() {
+    if (progress > 0) {
+        progress -= 0.3;
+        mask.style.height = progress + "%";
 
-                // Dialogue Logic linked to progress
-                let completion = 100 - progress;
-                let msgTrigger = Math.floor((completion / 100) * bootSequence.length);
-                
-                if (msgTrigger > currentMsg && currentMsg < bootSequence.length) {
-                    dialogue.innerText = bootSequence[currentMsg];
-                    currentMsg++;
-                }
-            } else {
-                // CLIMAX
-                clearInterval(masterInterval);
-                dialogue.innerText = "ACCESS GRANTED";
-                dialogue.style.color = "#fff";
-                dialogue.style.textShadow = "0 0 10px #00ff00";
-                img.style.filter = "contrast(1.1) brightness(1.1)";
-            }
-        }, 40); 
-    };
+        const percentShown = 100 - progress;
+        const trigger = Math.floor((percentShown / 100) * messages.length);
 
-    // REDUNDANCY 3: Failover Error Handling
-    img.onerror = function() {
-        dialogue.innerText = "CRITICAL FAILURE: FILE NOT FOUND";
-        dialogue.style.color = "red";
-        console.error("The browser could not find " + targetFile);
-    };
+        if (trigger > msgIndex && msgIndex < messages.length) {
+            dialogue.textContent = messages[msgIndex];
+            msgIndex++;
+        }
 
+        requestAnimationFrame(reveal);
+    } else {
+        dialogue.textContent = "ACCESS GRANTED";
+        dialogue.style.color = "#ffffff";
+    }
+}
+
+window.onload = () => {
+    reveal();
+};
 </script>
+
 </body>
 </html>
