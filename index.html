@@ -14,7 +14,7 @@ body{
     overflow:hidden;
 }
 
-/* Loading Screen */
+/* LOADING SCREEN */
 
 #loading{
     height:100vh;
@@ -24,14 +24,14 @@ body{
     font-size:28px;
 }
 
-/* Main Scene */
+/* MAIN SCENE */
 
 #scene{
     display:none;
     padding:40px;
 }
 
-/* Image */
+/* IMAGE */
 
 #image-container{
     width:400px;
@@ -51,11 +51,11 @@ body{
     transition:2s;
 }
 
-.show-image{
+.show{
     opacity:1 !important;
 }
 
-/* Terminal */
+/* TERMINAL */
 
 #terminal{
     border:1px solid #00ff41;
@@ -63,10 +63,10 @@ body{
     height:150px;
     overflow:hidden;
     white-space:pre-wrap;
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 
-/* Glitch */
+/* GLITCH EFFECT */
 
 .glitch{
     animation:shake 0.1s infinite;
@@ -79,13 +79,12 @@ body{
     100%{transform:translate(2px,0);}
 }
 
-/* Questions Section */
+/* QUESTIONS */
 
 #questions{
     display:none;
     border:1px solid #00ff41;
     padding:20px;
-    margin-top:30px;
 }
 
 .question{
@@ -109,7 +108,7 @@ button{
 
 <div id="loading">SYSTEM BOOTING...</div>
 
-<!-- MAIN SCENE -->
+<!-- SCENE -->
 
 <div id="scene">
 
@@ -125,19 +124,19 @@ onerror="this.parentElement.innerHTML='IMAGE FAILED TO LOAD'">
 <h2>SCENARIO QUESTIONS</h2>
 
 <div class="question">
-A) Earliest possible time? — <b>11:15</b>
+A) Earliest possible time? — 11:15
 </div>
 
 <div class="question">
-B) Latest possible time? — <b>14:30</b>
+B) Latest possible time? — 14:30
 </div>
 
 <div class="question">
-C) Lowest ticket at 11:45? — <b>018</b>
+C) Lowest ticket at 11:45? — 018
 </div>
 
 <div class="question">
-D) Highest ticket at 11:45? — <b>034</b>
+D) Highest ticket at 11:45? — 034
 </div>
 
 <button onclick="goNext()">ENTER SYSTEM</button>
@@ -148,7 +147,7 @@ D) Highest ticket at 11:45? — <b>034</b>
 
 <script>
 
-/* ---------------- REFERENCES ---------------- */
+/* REFERENCES */
 
 const loading = document.getElementById("loading");
 const scene = document.getElementById("scene");
@@ -156,29 +155,27 @@ const terminal = document.getElementById("terminal");
 const image = document.getElementById("man");
 const questions = document.getElementById("questions");
 
-/* ---------------- SEQUENCE ---------------- */
+/* ===== BOOT SEQUENCE ===== */
 
 setTimeout(()=>{
 
 loading.innerText = "INITIALIZING CORE...";
-
 scene.style.display="block";
 
 },2000);
 
 
-/* IMAGE REVEAL */
+/* ===== IMAGE REVEAL ===== */
 
 setTimeout(()=>{
 
-image.classList.add("show-image");
-
-terminal.innerHTML += "IMAGE ENTITY DETECTED...\n";
+image.classList.add("show");
+terminal.innerHTML += "ENTITY DETECTED...\n";
 
 },4000);
 
 
-/* SYSTEM ERRORS */
+/* ===== SYSTEM ERRORS ===== */
 
 setTimeout(()=>{
 
@@ -188,30 +185,31 @@ terminal.classList.add("glitch");
 },6000);
 
 
-/* SYSTEM BREACH */
+/* ===== VIRUS DETECTED ===== */
 
 setTimeout(()=>{
 
-terminal.innerHTML += "ERROR: MEMORY CORRUPTION\nERROR: CORE INSTABILITY\n";
+terminal.innerHTML += "WARNING: VIRUS DETECTED\n";
+terminal.innerHTML += "CALCULATING COUNTERMEASURES...\n";
 
 },8000);
 
 
-/* MAN REVEAL COMPLETE */
+/* ===== MAN FULLY ACTIVATED ===== */
 
 setTimeout(()=>{
 
 terminal.classList.remove("glitch");
-terminal.innerHTML += "\nENTITY FULLY ACTIVATED\n";
+terminal.innerHTML += "\nSYSTEM STABILIZED\n";
 
-/* Show Questions After Drama */
+/* Unlock Questions */
 
 questions.style.display="block";
 
 },11000);
 
 
-/* REDIRECT TO ACT 2 */
+/* ===== REDIRECT ===== */
 
 function goNext(){
     window.location.href="act2.html";
