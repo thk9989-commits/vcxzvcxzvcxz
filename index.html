@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <style>
         body { 
             background: #000; 
@@ -14,21 +15,22 @@
             font-family: 'Courier New', monospace;
         }
         #terminal-overlay {
-            color: #fff; /* White text for contrast */
-            font-size: 18px;
-            margin-bottom: 20px;
+            color: #ffffff; 
+            font-size: 20px;
+            margin-bottom: 25px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            font-weight: bold;
         }
         canvas { 
             max-width: 90vw; 
             max-height: 80vh; 
-            border: 1px solid #333;
+            box-shadow: 0 0 40px rgba(255,255,255,0.1);
         }
     </style>
 </head>
 <body>
-    <div id="terminal-overlay">Initializing Bypass...</div>
+    <div id="terminal-overlay">SYSTEM: STANDBY...</div>
     <canvas id="doorCanvas"></canvas>
 
 <script>
@@ -37,15 +39,15 @@
     const dialogue = document.getElementById('terminal-overlay');
     const img = new Image();
     
-    // ENSURE THIS NAME IS EXACT
-    img.src = 'door.webp'; 
+    // The "?t=" part forces the browser to ignore the old green version
+    img.src = 'door.webp?t=' + new Date().getTime(); 
 
     const messages = [
-        "Connecting to Node...",
-        "Bypassing Security Layer...",
-        "Firewall Deactivated.",
-        "Decrypting Visual Stream...",
-        "Gateway Accessed."
+        "CAUTION: SECURITY BYPASS INITIATED",
+        "DEACTIVATING FIREWALL...",
+        "ENCRYPTION KEY ACCEPTED",
+        "RECONSTRUCTING COLOR DATA...",
+        "GATEWAY REVEALED"
     ];
 
     img.onload = function() {
@@ -57,14 +59,11 @@
         function render() {
             if (currentY < canvas.height) {
                 let progress = currentY / canvas.height;
+                let speed = 0.2 + (progress * 2.0); 
                 
-                // Slow, inch-by-inch speed
-                let speed = 0.2 + (progress * 2.5); 
-                
-                // Draws original image colors (No Green Tint)
+                // Drawing PURE colors from the image
                 ctx.drawImage(img, 0, currentY, canvas.width, speed, 0, currentY, canvas.width, speed);
                 
-                // Update Dialogue based on progress
                 if (progress > (msgIndex + 1) / messages.length) {
                     dialogue.innerText = messages[msgIndex];
                     msgIndex++;
@@ -73,8 +72,7 @@
                 currentY += speed;
                 requestAnimationFrame(render);
             } else {
-                dialogue.innerText = "SYSTEM SECURE. GATEWAY OPEN.";
-                dialogue.style.color = "#00ff00"; // Green only for the final success message
+                dialogue.innerText = "ACCESS GRANTED. PROCEED.";
             }
         }
         render();
