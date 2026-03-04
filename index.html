@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>GATEWAY_CRITICAL_OVERRIDE</title>
     <style>
         body { 
             background: #000; 
@@ -14,69 +15,114 @@
             overflow: hidden;
             font-family: 'Courier New', monospace;
         }
-        #terminal-overlay {
+        #terminal-header {
             color: #ffffff; 
-            font-size: 20px;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            width: 80%;
+            text-align: left;
+            border-left: 3px solid #00ff00;
+            padding-left: 10px;
         }
-        canvas { 
-            max-width: 90vw; 
-            max-height: 80vh; 
-            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+        #dialogue-box {
+            color: #00ff41; 
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            height: 30px;
+        }
+        .frame-container {
+            position: relative;
+            border: 2px solid #333;
+            background: #050505;
+            box-shadow: 0 0 50px rgba(255,255,255,0.05);
+        }
+        #door-img {
+            display: block;
+            max-width: 85vw;
+            max-height: 70vh;
+            /* Backup Method: CSS Clipping */
+            clip-path: inset(0 0 100% 0); 
+            transition: filter 0.5s;
         }
     </style>
 </head>
 <body>
-    <div id="terminal-overlay">SYSTEM: STANDBY...</div>
-    <canvas id="doorCanvas"></canvas>
+
+    <div id="terminal-header">
+        NODE: 127.0.0.1 <br>
+        STATUS: BYPASSING_LOCAL_FILTERS...
+    </div>
+    
+    <div id="dialogue-box">INITIALIZING...</div>
+
+    <div class="frame-container">
+        <img id="door-img" src="">
+    </div>
 
 <script>
-    const canvas = document.getElementById('doorCanvas');
-    const ctx = canvas.getContext('2d');
-    const dialogue = document.getElementById('terminal-overlay');
-    const img = new Image();
+    const img = document.getElementById('door-img');
+    const dialogue = document.getElementById('dialogue-box');
     
-    // The "?t=" part forces the browser to ignore the old green version
-    img.src = 'door.webp?t=' + new Date().getTime(); 
+    // REDUNDANCY 1: Cache Busting to kill the "Green Ghost"
+    const timestamp = new Date().getTime();
+    const targetFile = 'door.webp';
+    img.src = targetFile + "?v=" + timestamp;
 
-    const messages = [
-        "CAUTION: SECURITY BYPASS INITIATED",
-        "DEACTIVATING FIREWALL...",
-        "ENCRYPTION KEY ACCEPTED",
-        "RECONSTRUCTING COLOR DATA...",
-        "GATEWAY REVEALED"
+    // REDUNDANCY 2: Deep Dialogue Array
+    const bootSequence = [
+        "Tracing Packet Route...",
+        "Proxy Handshake: SUCCESS",
+        "Injecting Payload...",
+        "Firewall Deactivated.",
+        "Stripping SSL Layer...",
+        "Bypassing CSS Cache...",
+        "Syncing Color Buffers...",
+        "Reconstructing Visuals...",
+        "Integrity Check: 100%",
+        "Gateway Decrypted."
     ];
 
     img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        let currentY = 0;
-        let msgIndex = 0;
+        console.log("Image Loaded Successfully. Starting Reveal.");
         
-        function render() {
-            if (currentY < canvas.height) {
-                let progress = currentY / canvas.height;
-                let speed = 0.2 + (progress * 2.0); 
-                
-                // Drawing PURE colors from the image
-                ctx.drawImage(img, 0, currentY, canvas.width, speed, 0, currentY, canvas.width, speed);
-                
-                if (progress > (msgIndex + 1) / messages.length) {
-                    dialogue.innerText = messages[msgIndex];
-                    msgIndex++;
-                }
+        let progress = 100; // Starts at 100% hidden
+        let currentMsg = 0;
 
-                currentY += speed;
-                requestAnimationFrame(render);
+        // Slow and steady interval
+        const masterInterval = setInterval(() => {
+            if (progress > 0) {
+                // Inch by inch
+                progress -= 0.15; 
+                img.style.clipPath = `inset(0 0 ${progress}% 0)`;
+
+                // Dialogue Logic linked to progress
+                let completion = 100 - progress;
+                let msgTrigger = Math.floor((completion / 100) * bootSequence.length);
+                
+                if (msgTrigger > currentMsg && currentMsg < bootSequence.length) {
+                    dialogue.innerText = bootSequence[currentMsg];
+                    currentMsg++;
+                }
             } else {
-                dialogue.innerText = "ACCESS GRANTED. PROCEED.";
+                // CLIMAX
+                clearInterval(masterInterval);
+                dialogue.innerText = "ACCESS GRANTED";
+                dialogue.style.color = "#fff";
+                dialogue.style.textShadow = "0 0 10px #00ff00";
+                img.style.filter = "contrast(1.1) brightness(1.1)";
             }
-        }
-        render();
+        }, 40); 
     };
+
+    // REDUNDANCY 3: Failover Error Handling
+    img.onerror = function() {
+        dialogue.innerText = "CRITICAL FAILURE: FILE NOT FOUND";
+        dialogue.style.color = "red";
+        console.error("The browser could not find " + targetFile);
+    };
+
 </script>
 </body>
 </html>
