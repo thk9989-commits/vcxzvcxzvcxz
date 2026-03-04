@@ -2,111 +2,117 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Act Two - System Breach</title>
+<title>Phase 2 - Analysis</title>
 
 <style>
+
 body{
     margin:0;
     background:black;
     color:#00ff41;
     font-family:monospace;
     padding:40px;
-    overflow:hidden;
 }
 
-/* Terminal Box */
-#terminal{
+.section{
     border:1px solid #00ff41;
     padding:20px;
-    height:80vh;
-    overflow:auto;
-    white-space:pre-wrap;
+    margin-bottom:30px;
+    max-width:900px;
 }
 
-/* Input */
-input{
-    background:black;
-    border:1px solid #00ff41;
-    color:#00ff41;
+.question{
+    margin-top:15px;
+    padding:10px;
+    border-left:3px solid #00ff41;
+}
+
+button{
+    background:#00ff41;
+    border:none;
+    padding:10px 20px;
     font-family:monospace;
-    padding:8px;
-    width:300px;
+    cursor:pointer;
 }
 
-/* Wrong answer */
-.wrong{
-    color:red;
+/* Hidden Answers */
+
+#answers{
+    display:none;
+    margin-top:20px;
+    color:lime;
 }
+
 </style>
 </head>
 <body>
 
-<h2>SYSTEM BREACH DETECTED</h2>
+<div class="section">
 
-<div id="terminal"></div>
+<h2>SCENARIO</h2>
 
-<div id="input-area" style="display:none;">
-    <div>> STABILIZE CORE:</div>
-    <input type="text" id="answer-input">
+<p>
+When customers arrive at a drop-in advice centre:
+
+• They collect a three-digit ticket number (001,002,003…)  
+• Customers are seen in order  
+• Appointments last 5–10 minutes  
+• No time is lost  
+• Advisers work 09:00 – 12:00 and 13:00 onward  
+• Lunch 12:00 – 13:00  
+• Always enough customers  
+
+Rachel visits Monday.  
+Only ONE adviser working.  
+Number 028 is displayed.
+</p>
+
 </div>
+
+
+<div class="section">
+
+<h2>QUESTIONS</h2>
+
+<div class="question">
+A) What is the earliest possible time?
+</div>
+
+<div class="question">
+B) What is the latest possible time?
+</div>
+
+<div class="question">
+C) Lowest possible ticket at 11:45?
+</div>
+
+<div class="question">
+D) Highest possible ticket at 11:45?
+</div>
+
+<button onclick="showAnswers()">SHOW ANSWERS</button>
+
+<div id="answers">
+
+<h3>ANSWERS</h3>
+
+<p>
+A) 11:15<br><br>
+B) 14:30<br><br>
+C) 018<br><br>
+D) 034
+</p>
+
+</div>
+
+</div>
+
 
 <script>
 
-const terminal = document.getElementById("terminal");
-const inputArea = document.getElementById("input-area");
-const input = document.getElementById("answer-input");
-
-/* Logs that type slowly */
-
-const logs = [
-"ACCESS GRANTED...",
-"LOADING CORE DATA...",
-"RETRIEVING SCENARIO...",
-"BLACKLISTING USERS...",
-"FIREWALL DISABLED...",
-"DECRYPTING FILES...",
-"INITIALIZING COUNTERMEASURES..."
-];
-
-let index = 0;
-
-function typeLogs(){
-    if(index < logs.length){
-        terminal.innerHTML += logs[index] + "\n";
-        index++;
-        setTimeout(typeLogs,800);
-    }else{
-        showInput();
-    }
+function showAnswers(){
+document.getElementById("answers").style.display="block";
 }
-
-function showInput(){
-    inputArea.style.display="block";
-    input.focus();
-}
-
-/* Example answer check */
-
-input.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-
-        if(input.value.trim().toLowerCase() === "stabilize"){
-            terminal.innerHTML += "\nCORE STABILIZED.\n";
-            inputArea.style.display="none";
-        }else{
-            terminal.innerHTML += "\nWRONG COMMAND.\n";
-            input.classList.add("wrong");
-
-            setTimeout(()=>{
-                input.classList.remove("wrong");
-            },500);
-        }
-
-        input.value="";
-    }
-});
-
-window.onload = typeLogs;
 
 </script>
 
