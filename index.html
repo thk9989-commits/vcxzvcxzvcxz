@@ -2,33 +2,79 @@
 <html>
 <head>
     <style>
-        body { background: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        canvas { max-width: 95vw; max-height: 95vh; }
+        body { 
+            background: #000; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+        #terminal-overlay {
+            color: #fff; /* White text for contrast */
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        canvas { 
+            max-width: 90vw; 
+            max-height: 80vh; 
+            border: 1px solid #333;
+        }
     </style>
 </head>
 <body>
+    <div id="terminal-overlay">Initializing Bypass...</div>
     <canvas id="doorCanvas"></canvas>
+
 <script>
     const canvas = document.getElementById('doorCanvas');
     const ctx = canvas.getContext('2d');
+    const dialogue = document.getElementById('terminal-overlay');
     const img = new Image();
+    
+    // ENSURE THIS NAME IS EXACT
     img.src = 'door.webp'; 
+
+    const messages = [
+        "Connecting to Node...",
+        "Bypassing Security Layer...",
+        "Firewall Deactivated.",
+        "Decrypting Visual Stream...",
+        "Gateway Accessed."
+    ];
 
     img.onload = function() {
         canvas.width = img.width;
         canvas.height = img.height;
         let currentY = 0;
+        let msgIndex = 0;
         
         function render() {
             if (currentY < canvas.height) {
-                // Inch by inch building speed
-                let speed = 0.2 + ((currentY / canvas.height) * 3); 
+                let progress = currentY / canvas.height;
                 
-                // Draws the actual colors of your image
+                // Slow, inch-by-inch speed
+                let speed = 0.2 + (progress * 2.5); 
+                
+                // Draws original image colors (No Green Tint)
                 ctx.drawImage(img, 0, currentY, canvas.width, speed, 0, currentY, canvas.width, speed);
                 
+                // Update Dialogue based on progress
+                if (progress > (msgIndex + 1) / messages.length) {
+                    dialogue.innerText = messages[msgIndex];
+                    msgIndex++;
+                }
+
                 currentY += speed;
                 requestAnimationFrame(render);
+            } else {
+                dialogue.innerText = "SYSTEM SECURE. GATEWAY OPEN.";
+                dialogue.style.color = "#00ff00"; // Green only for the final success message
             }
         }
         render();
